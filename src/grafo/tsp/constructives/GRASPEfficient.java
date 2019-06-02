@@ -4,13 +4,14 @@ import grafo.optilib.metaheuristics.Constructive;
 import grafo.optilib.tools.RandomManager;
 import grafo.tsp.structure.TSPInstance;
 import grafo.tsp.structure.TSPSolution;
+import grafo.tsp.structure.TSPSolutionEfficient;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
-public class GRASPBetter implements Constructive<TSPInstance, TSPSolution> {
+public class GRASPEfficient implements Constructive<TSPInstance, TSPSolutionEfficient> {
 
     private class Candidate {
         int v;
@@ -24,15 +25,15 @@ public class GRASPBetter implements Constructive<TSPInstance, TSPSolution> {
 
     private float alpha;
 
-    public GRASPBetter(float alpha) {
+    public GRASPEfficient(float alpha) {
         this.alpha = alpha;
     }
 
     @Override
-    public TSPSolution constructSolution(TSPInstance instance) {
-        Random rnd = RandomManager.getRandom();
+    public TSPSolutionEfficient constructSolution(TSPInstance instance) {
+        Random rnd = new Random(RandomManager.getRandom().nextInt(1000));
         float realAlpha = (alpha >= 0) ? alpha : rnd.nextFloat();
-        TSPSolution sol = new TSPSolution(instance);
+        TSPSolutionEfficient sol = new TSPSolutionEfficient(instance);
         int n = instance.getN();
         int first = rnd.nextInt(n-2)+2;
         sol.addNode(first);
@@ -53,7 +54,7 @@ public class GRASPBetter implements Constructive<TSPInstance, TSPSolution> {
         return sol;
     }
 
-    private List<Candidate> createCandidateList(TSPSolution sol, int first) {
+    private List<Candidate> createCandidateList(TSPSolutionEfficient sol, int first) {
         TSPInstance instance = sol.getInstance();
         int n = instance.getN();
         List<Candidate> cl = new ArrayList<>(n);
@@ -66,7 +67,7 @@ public class GRASPBetter implements Constructive<TSPInstance, TSPSolution> {
         return cl;
     }
 
-    private void updateCandidateList(TSPSolution sol, List<Candidate> cl, int selected) {
+    private void updateCandidateList(TSPSolutionEfficient sol, List<Candidate> cl, int selected) {
         TSPInstance instance = sol.getInstance();
         int n = instance.getN();
         for (Candidate c : cl) {

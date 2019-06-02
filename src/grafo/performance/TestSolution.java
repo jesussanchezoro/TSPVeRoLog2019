@@ -19,8 +19,8 @@ public class TestSolution {
 //        String path = "/Users/jesus.sanchezoro/IdeaProjects/instancias/tsrp/all/a280_gen1.txt";
         String path = "/Users/jesus.sanchezoro/IdeaProjects/instancias/tsrp/all/u724_gen1.txt";
         TSPInstance instance = new TSPInstance(path);
-//        TSPSolution sol = new TSPSolution(instance);
-        TSPSolutionEfficient sol = new TSPSolutionEfficient(instance);
+        TSPSolution sol = new TSPSolution(instance);
+//        TSPSolutionEfficient sol = new TSPSolutionEfficient(instance);
         int n = instance.getN();
         for (int i = 2; i <= n; i++) {
             sol.addNode(i);
@@ -36,8 +36,6 @@ public class TestSolution {
             sol.insert(v1, v2);
         }
         double secs = (System.currentTimeMillis() - timeIni) / 1000.0;
-        System.out.println(sol);
-        System.out.println(sol.getTotalDistance()+"\t"+sol.eval());
         System.out.println("Time: "+secs);
     }
 }

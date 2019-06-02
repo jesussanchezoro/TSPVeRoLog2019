@@ -41,14 +41,11 @@ public class GRASP implements Constructive<TSPInstance, TSPSolution> {
             int gmin = cl.get(0).cost;
             int gmax = cl.get(cl.size()-1).cost;
             float th = gmin + realAlpha * (gmax-gmin);
-            List<Candidate> rcl = new ArrayList<>(cl.size());
-            for (Candidate c : cl) {
-                if (c.cost <= th) {
-                    rcl.add(c);
-                }
+            int limit = 0;
+            while (limit < cl.size() && cl.get(limit).cost <= th) {
+                limit++;
             }
-            Candidate selected = rcl.get(rnd.nextInt(rcl.size()));
-            cl.remove(selected);
+            Candidate selected = cl.remove(rnd.nextInt(limit));
             sol.addNode(selected.v);
             updateCandidateList(sol, cl, selected.v);
         }
@@ -71,6 +68,7 @@ public class GRASP implements Constructive<TSPInstance, TSPSolution> {
 
     private void updateCandidateList(TSPSolution sol, List<Candidate> cl, int selected) {
         TSPInstance instance = sol.getInstance();
+        int n = instance.getN();
         for (Candidate c : cl) {
             c.cost = instance.distance(c.v, selected);
         }
